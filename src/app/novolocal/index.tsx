@@ -48,7 +48,7 @@ export default function NovoLocalIndex() {
         <Text style={styles.label}>Nome do Local</Text>
         <TextInput
           style={styles.input}
-          placeholder="Ex: Cristo Redentor, Minha Casa..."
+          placeholder="Ex: Minha Casa..."
           value={nome}
           onChangeText={setNome}
         />
