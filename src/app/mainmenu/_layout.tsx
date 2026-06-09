@@ -4,7 +4,7 @@ export default function DestinoLayout() {
     return <Stack>
         <Stack.Screen
             name="index"
-            options={{ title: 'Mapa',
+            options={{ title: 'Mapa', 
             headerShown: false,
             }}
             
