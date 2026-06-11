@@ -1,4 +1,4 @@
-# UBI - O Seu Mapa Pessoal
+# UBI
 
 ## O Problema que o App Resolve
 Com a rotina agitada nas cidades, é muito comum que esqueçamos da localização exata de lugares interessantes pelos quais passamos. O **UBI** surge para resolver este problema, permitindo ao utilizador criar um mapa próprio e personalizado, guardando locais importantes, organizando-os por cores, marcando os favoritos e descobrindo a que distância se encontra de cada um deles em tempo real.
