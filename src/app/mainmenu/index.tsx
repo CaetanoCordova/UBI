@@ -1,7 +1,8 @@
+import { apiLocais } from '@/src/utils/axios';
 import * as Location from 'expo-location';
 import { useFocusEffect } from 'expo-router'; // Importante para atualizar a lista ao trocar de aba
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { useSecureStore } from "../../hooks/useSecureStore";
 import { Typelocal } from "../../types/typelocal";
@@ -47,21 +48,18 @@ export default function Index() {
   // --- CARREGAR OS LOCAIS SALVOS SEMPRE QUE ABRIR A TELA ---
   useFocusEffect(
     useCallback(() => {
-      async function buscarLocaisDoArmazenamento() {
-        const dados = await ler('meus_locais');
-        if (dados) {
-          setLocaisSalvos(JSON.parse(dados));
+      async function buscarLocaisDaAPI() {
+        try {
+          // Requisito 4: GET na API
+          const response = await apiLocais.get('/locais');
+          setLocaisSalvos(response.data);
+        } catch (error) {
+          console.error("Erro ao buscar locais:", error);
         }
       }
-      buscarLocaisDoArmazenamento();
+      buscarLocaisDaAPI();
     }, [])
   );
-
-  // Botão extra para limpar todos os dados (útil durante o desenvolvimento!)
-  const limparTudo = async () => {
-    await deletar('meus_locais');
-    setLocaisSalvos([]);
-  }
 
   // --- Ordenar os locais pela distância ---
   const locaisOrdenados = useMemo(() => {
@@ -117,11 +115,6 @@ export default function Index() {
       </View>
 
       <View style={styles.listContainer}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16}}>
-          <Text style={styles.listTitle}>Locais Próximos</Text>
-          {/* Botão temporário para apagar tudo caso precise */}
-          <TouchableOpacity onPress={limparTudo}><Text style={{color: 'red'}}>Limpar Tudo</Text></TouchableOpacity>
-        </View>
         
         <FlatList
           data={locaisOrdenados}
